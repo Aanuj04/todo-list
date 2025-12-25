@@ -1,59 +1,90 @@
+let tasks = [];
 const addBtn=document.getElementById("addBtn");
 const taskList=document.getElementById("taskList");
 const taskInput=document.getElementById("taskInput");
+const saveBtn = document.getElementById("saveBtn");
 addBtn.addEventListener("click",addTask);
 taskInput.addEventListener("keydown",(e)=>{
     if(e.key==="Enter") addTask();
 })
+
 function addTask(){
     const task=taskInput.value;
     if (task==="") return;
-    const li= document.createElement("li");
+
+    const taskObj = {
+        id:Date.now(),
+        text:task,
+        completed:false
+    }
+    tasks.push(taskObj);
+    createTaskElement(taskObj);
+
+    console.log(tasks);
+
+    taskInput.value = "";
+}
+
+function createTaskElement(taskObj) {
+    const li = document.createElement("li");
+
     const span = document.createElement("span");
     span.className = "task-text";
-    span.textContent = task;
+    span.textContent = taskObj.text;
 
-    // actions container
     const actions = document.createElement("div");
     actions.className = "actions";
 
-    // complete button
     const completeBtn = document.createElement("button");
     completeBtn.className = "complete-btn";
     completeBtn.textContent = "✔";
     completeBtn.addEventListener("click", () => {
-        li.classList.toggle("completed");
+        toggleComplete(taskObj,li);
     });
 
-    // edit button
     const editBtn = document.createElement("button");
     editBtn.className = "edit-btn";
     editBtn.textContent = "✏";
     editBtn.addEventListener("click", () => {
-        const newText = prompt("Edit task:", span.textContent);
-        if (newText !== null && newText.trim() !== "") {
-            span.textContent = newText.trim();
-        }
-        else{
-            alert("Cannot enter empty task!!!")
-        }
+       editTask(taskObj,span);
     });
-
 
     const deleteBtn = document.createElement("button");
     deleteBtn.className = "delete-btn";
     deleteBtn.textContent = "🗑";
     deleteBtn.addEventListener("click", () => {
-        li.remove();
+        deleteTask(taskObj,li);
     });
 
-    actions.appendChild(completeBtn);
-    actions.appendChild(editBtn);
-    actions.appendChild(deleteBtn);
 
-    li.appendChild(span);
-    li.appendChild(actions);
 
+    actions.append(completeBtn, editBtn, deleteBtn);
+    li.append(span, actions);
     taskList.appendChild(li);
-    taskInput.value = "";
+}
+
+saveBtn.addEventListener("click", saveTasks);
+
+function saveTasks(){
+    console.log(tasks);
+}
+
+function toggleComplete(taskObj,li){
+    taskObj.completed=!taskObj.completed;
+    li.classList.toggle("completed");
+}
+
+function editTask(taskObj,span){
+    const newText = prompt("Edit task:",taskObj.text);
+    if(newText && newText.trim()){
+        taskObj.text=newText.trim();
+        span.textContent=taskObj.text;
+    }else{
+        alert("Cannot enter empty task!!");
+    }
+}
+
+function deleteTask(taskObj,li){
+    tasks.filter(t=>t.id!==taskObj.id);
+    li.remove();
 }
