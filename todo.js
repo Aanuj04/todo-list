@@ -28,6 +28,10 @@ function addTask(){
 function createTaskElement(taskObj) {
     const li = document.createElement("li");
 
+    if (taskObj.completed){
+        li.classList.add("completed");
+    }
+
     const span = document.createElement("span");
     span.className = "task-text";
     span.textContent = taskObj.text;
@@ -65,8 +69,9 @@ function createTaskElement(taskObj) {
 
 saveBtn.addEventListener("click", saveTasks);
 
-function saveTasks(){
-    console.log(tasks);
+function saveTasks() {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    console.log("Saved to localStorage:", tasks);
 }
 
 function toggleComplete(taskObj,li){
@@ -85,6 +90,15 @@ function editTask(taskObj,span){
 }
 
 function deleteTask(taskObj,li){
-    tasks.filter(t=>t.id!==taskObj.id);
+    tasks = tasks.filter(t=>t.id!==taskObj.id);
     li.remove();
 }
+
+function loadTasks(){
+    const storedTasks = JSON.parse(localStorage.getItem("tasks"));
+    if(!storedTasks) return;
+    tasks = storedTasks;
+    tasks.forEach(task => createTaskElement(task));
+}
+
+loadTasks();
