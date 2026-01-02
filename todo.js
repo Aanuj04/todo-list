@@ -8,19 +8,6 @@ taskInput.addEventListener("keydown", (e) => {
 	if (e.key === "Enter") addTask();
 });
 
-async function saveTodo(task) {
-	try {
-		const res = await fetch("http://localhost:3000/todos", {
-			method: "POST",
-			body: JSON.stringify(task),
-		});
-		const data = res.json();
-		return data;
-	} catch (err) {
-		console.error("Failed to save todo", err);
-	}
-}
-
 function addTask() {
 	const task = taskInput.value;
 	if (task === "") return;
@@ -30,8 +17,7 @@ function addTask() {
 		text: task,
 		completed: false,
 	};
-
-	saveTodo(taskObj);
+	tasks.push(taskObj);
 	createTaskElement(taskObj);
 
 	console.log(tasks);
