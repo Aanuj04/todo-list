@@ -10,6 +10,7 @@
   5. Learn to handle errors & validate input that the client sends on server.
   6. Use apt error messages, http status codes to represent an endpoint's response.
   7. Learn to read and write files on the file system using node fs api.
+  8. Learn how to use curl to quickly test api endpoints.
  */
 
 import { createServer } from "node:http";
