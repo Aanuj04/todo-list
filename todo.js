@@ -1,17 +1,3 @@
-/*
-  TODO:
-
-  1. Understand how Node.js works. The anatomy of a node project,
-  including npm (adding, removing, updating packages, local vs global packages),
-  the package.json file, project scripts, dependencies and devDependencies.
-  2. Understand the difference between synchronous and asynchronous programming.
-  3. Understand promises in JS and difference between callbacks (.then) & async/await.
-  4. Understand how fetch API works.
-  5. Learn to handle errors & validate input that the client sends on server.
-  6. Use apt error messages, http status codes to represent an endpoint's response.
-  7. Learn to read and write files on the file system using node fs api.
- */
-
 const tasks = [];
 const addBtn = document.getElementById("addBtn");
 const taskList = document.getElementById("taskList");
